@@ -21,7 +21,7 @@ namespace AcademiaDoZe.Infrastructure.Tests
         }
         private (string ConnectionString, DatabaseType DatabaseType) CreateMySqlConfig()
         {
-            var connectionString = "Server=localhost;Database=db_academia_do_ze;User Id=coelho;Password=abcBolinhas12345;";
+            var connectionString = "Server=localhost;Database=db_academia_do_ze;User Id=root;Password=123456;";
 
             return (connectionString, DatabaseType.MySql);
 

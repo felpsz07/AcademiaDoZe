@@ -60,7 +60,9 @@ Command="{Binding SearchLogradourosCommand}"/>
                                         <!-- Botões de Ação -->
 
                                         <Button Grid.Row="0" Grid.Column="1" Text="Editar" Style="{StaticResource ButtonSmall}" Margin="4,0" Clicked="OnEditButtonClicked" />
+                                     
                                         <Button Grid.Row="0" Grid.Column="2" Text="Excluir" Style="{StaticResource ButtonDanger}" Margin="4,0" Clicked="OnDeleteButtonClicked" />
+                                        
                                     </Grid>
                                 </Border>
                             </Grid>
