@@ -76,6 +76,12 @@
 	  <Compile Update="Views\LogradouroListPage.xaml.cs">
 	    <DependentUpon>LogradouroListPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\ColaboradorListPage.xaml.cs">
+	    <DependentUpon>ColaboradorListPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ColaboradorPage.xaml.cs">
+	    <DependentUpon>ColaboradorPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -89,6 +95,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\LogradouroListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ColaboradorListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ColaboradorPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
