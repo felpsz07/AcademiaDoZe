@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+    xmlns:vm="clr-namespace:AcademiaDoZe.Presentation.AppMaui.ViewModels"
+    xmlns:enums="clr-namespace:AcademiaDoZe.Application.Enums;assembly=AcademiaDoZe.Application"
+    xmlns:converters="clr-namespace:AcademiaDoZe.Presentation.AppMaui.Converters"
+    x:Class="AcademiaDoZe.Presentation.AppMaui.Views.MatriculaPage"
+    x:DataType="vm:MatriculaViewModel"
+    Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <converters:FotoToImageSourceConverter x:Key="FotoToImageSourceConverter" />
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <StackLayout Spacing="20">
+
+            
+            <Border Style="{StaticResource CardBorder}" Margin="10,10">
+                <VerticalStackLayout Spacing="10">
+
+                    <Label Text="Aluno" Style="{StaticResource SubHeadline}" />
+
+                    <Entry
+                        Placeholder="Digite o CPF do aluno"
+                        Text="{Binding CpfDigitado}"
+                        Keyboard="Numeric"
+                        MaxLength="14"/>
+
+                    <Button Text="Buscar aluno"
+                            Command="{Binding BuscarAlunoCommand}"
+                            Style="{StaticResource ButtonPrimary}" />
+
+                    
+                    <Border Style="{StaticResource CardBorder}" Margin="10,10">
+                        <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,*" Padding="10">
+
+                            <Label Grid.Row="0" Grid.ColumnSpan="2"
+                                   Text="Aluno Encontrado"
+                                   Style="{StaticResource SubHeadline}" />
+
+                           
+                            <Image Grid.Row="1"
+                                   Grid.Column="0"
+                                   WidthRequest="80"
+                                   HeightRequest="80"
+                                   Aspect="AspectFill"
+                                   Source="{Binding Aluno.Foto, Converter={StaticResource FotoToImageSourceConverter}}"
+                                   IsVisible="{Binding AlunoEncontrado}" />
+
+                             
+                            <Label Grid.Row="1"
+                                   Grid.Column="1"
+                                   Text="{Binding Aluno.Nome}"
+                                   FontSize="18"
+                                   VerticalOptions="Center"
+                                   IsVisible="{Binding AlunoEncontrado}" />
+
+                            <Label Grid.Row="2"
+                                   Grid.Column="1"
+                                   Text="{Binding Aluno.DataNascimento, StringFormat='Nascimento: {0:dd/MM/yyyy}'}"
+                                   FontSize="14"
+                                   TextColor="Gray"
+                                   IsVisible="{Binding AlunoEncontrado}" />
+
+                        </Grid>
+                    </Border>
+
+                </VerticalStackLayout>
+            </Border>
+
+
+            
+            <Border Style="{StaticResource CardBorder}" Margin="15,10">
+                <StackLayout Spacing="10">
+
+                    <Label Text="Plano" />
+                    <Picker ItemsSource="{Binding Planos}"
+                            SelectedItem="{Binding Plano}" />
+
+                    <Label Text="Data de Início" />
+                    <DatePicker Date="{Binding DataInicio}"
+                                MinimumDate="{x:Static sys:DateTime.Today}" />
+
+                    <Label Text="Data de Término" />
+                    <DatePicker Date="{Binding DataFim}"
+                                IsEnabled="False" />
+
+                </StackLayout>
+            </Border>
+
+
+            <Border Style="{StaticResource CardBorder}" Margin="15,10">
+                <StackLayout Spacing="10">
+
+                    <Label Text="Restrições Médicas" />
+
+                    <HorizontalStackLayout Spacing="10">
+                        <CheckBox IsChecked="{Binding Diabetes}" />
+                        <Label Text="Diabetes" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Spacing="10">
+                        <CheckBox IsChecked="{Binding PressaoAlta}" />
+                        <Label Text="Pressão Alta" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Spacing="10">
+                        <CheckBox IsChecked="{Binding Alergias}" />
+                        <Label Text="Alergias" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Spacing="10">
+                        <CheckBox IsChecked="{Binding Labirintite}" />
+                        <Label Text="Labirintite" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Spacing="10">
+                        <CheckBox IsChecked="{Binding ProblemasRespiratorios}" />
+                        <Label Text="Problemas Respiratórios" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Spacing="10">
+                        <CheckBox IsChecked="{Binding RemedioContinuo}" />
+                        <Label Text="Remédio Contínuo" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+
+                    <Label Text="Observações" />
+                    <Editor Text="{Binding Matricula.ObservacoesRestricoes}"
+                            HeightRequest="100" />
+
+                </StackLayout>
+            </Border>
+
+
+            
+            <Border Style="{StaticResource CardBorder}" Margin="15,10"
+                    InputTransparent="False">
+                <StackLayout Spacing="10">
+
+                    <Label Text="Laudo Médico (PDF)" />
+
+                    <Button Text="Selecionar Arquivo"
+                            Command="{Binding SelecionarLaudoCommand}"
+                            Style="{StaticResource ButtonPrimary}" />
+
+                    <Label Text="{Binding Matricula.LaudoMedico.Nome}"
+                           TextColor="Gray" />
+
+                </StackLayout>
+            </Border>
+
+
+            
+            <Border Style="{StaticResource CardBorder}" Margin="15,10">
+                <StackLayout Spacing="10">
+                    <Label Text="Objetivo do Aluno" />
+                    <Entry Text="{Binding Matricula.Objetivo}"
+                           Placeholder="Informe o objetivo..." />
+                </StackLayout>
+            </Border>
+
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="15,10">
+
+                <Button Grid.Column="0"
+                        Text="Cancelar"
+                        Command="{Binding CancelCommand}"
+                        Style="{StaticResource ButtonSecondary}" />
+
+                <Button Grid.Column="1"
+                        Text="Salvar"
+                        Command="{Binding SaveCommand}"
+                        Style="{StaticResource ButtonPrimary}" />
+
+            </Grid>
+
+            <ActivityIndicator
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                IsVisible="{Binding IsBusy}"
+                IsRunning="{Binding IsBusy}" />
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

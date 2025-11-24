@@ -2,12 +2,14 @@
 using AcademiaDoZe.Presentation.AppMaui.Views;
 using Microsoft.Extensions.Logging;
 using AcademiaDoZe.Presentation.AppMaui.Configuration;
+using AcademiaDoZe.Presentation.AppMaui.Helpers;
 
 namespace AcademiaDoZe.Presentation.AppMaui;
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
+        LocalizationManager.Instance.SetCulture(Preferences.Get("Cultura", "pt-BR"));
         var builder = MauiApp.CreateBuilder();
         builder
         .UseMauiApp<App>()
@@ -28,6 +30,10 @@ public static class MauiProgram
         builder.Services.AddTransient<ColaboradorViewModel>();
         builder.Services.AddTransient<AlunoListViewModel>();
         builder.Services.AddTransient<AlunoViewModel>();
+        builder.Services.AddTransient<MatriculaListViewModel>();
+        builder.Services.AddTransient<MatriculaViewModel>();
+        builder.Services.AddTransient<LocalizationManager>();
+
         // Registrar Views
         builder.Services.AddTransient<DashboardListPage>();
         builder.Services.AddTransient<LogradouroListPage>();
@@ -37,6 +43,8 @@ public static class MauiProgram
         builder.Services.AddTransient<ColaboradorPage>();
         builder.Services.AddTransient<AlunoListPage>();
         builder.Services.AddTransient<AlunoPage>();
+        builder.Services.AddTransient<MatriculaListPage>();
+        builder.Services.AddTransient<MatriculaPage>();
 #if DEBUG
         builder.Logging.AddDebug();
 #endif

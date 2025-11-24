@@ -1,4 +1,6 @@
-﻿namespace AcademiaDoZe.Application.DTOs;
+﻿
+
+namespace AcademiaDoZe.Application.DTOs;
 
 public class AlunoDTO
 {
@@ -13,4 +15,5 @@ public class AlunoDTO
     public string? Complemento { get; set; }
     public string? Senha { get; set; }
     public ArquivoDTO? Foto { get; set; }
+
 }

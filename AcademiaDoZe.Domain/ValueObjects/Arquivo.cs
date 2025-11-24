@@ -20,11 +20,11 @@ public record Arquivo
         if (TextoNormalizadoService.    TextoVazioOuNulo(tipoArquivo))
             throw new DomainException("ARQUIVO_TIPO_OBRIGATORIO");
         var tiposPermitidos = new[] { ".jpg", ".jpeg", ".png", ".pdf", ".docx" };
-    //    if (!tiposPermitidos.Contains(tipoArquivo.ToLower()))
-      //      throw new DomainException("ARQUIVO_TIPO_INVALIDO");
-        const int tamanhoMaximoBytes = 5 * 1024 * 1024; // 5MB
-        if (conteudo.Length > tamanhoMaximoBytes)
-            throw new DomainException("ARQUIVO_TIPO_TAMANHO");
+       // if (!tiposPermitidos.Contains(tipoArquivo.ToLower()))
+      //  throw new DomainException("ARQUIVO_TIPO_INVALIDO");
+       // const int tamanhoMaximoBytes = 5 * 1024 * 1024; // 5MB
+       // if (conteudo.Length > tamanhoMaximoBytes)
+         //   throw new DomainException("ARQUIVO_TIPO_TAMANHO");
         // cria e retorna o objeto
 
         return new Arquivo(conteudo);

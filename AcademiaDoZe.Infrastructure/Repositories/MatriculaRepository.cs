@@ -66,8 +66,8 @@ namespace AcademiaDoZe.Infrastructure.Repositories
                                "data_fim = @DataFim, " +
                                "objetivo = @Objetivo, " +
                                "restricoes = @Restricoes, " +
-                               "observacao_restricao = @Observacao " +
-                              "laudo_medico = @LaudoMedico " +
+                               "observacao_restricao = @Observacao, " + 
+                               "laudo_medico = @LaudoMedico " +         
                                "WHERE id_matricula = @Id;";
 
                 await using var command = DbProvider.CreateCommand(query, connection);
@@ -80,10 +80,25 @@ namespace AcademiaDoZe.Infrastructure.Repositories
                 command.Parameters.Add(DbProvider.CreateParameter("@Objetivo", entity.Objetivo, DbType.String, _databaseType));
                 command.Parameters.Add(DbProvider.CreateParameter("@Restricoes", (int)entity.RestricoesMedicas, DbType.Int32, _databaseType));
                 command.Parameters.Add(DbProvider.CreateParameter("@Observacao", (object)entity.ObservacoesRestricoes ?? DBNull.Value, DbType.String, _databaseType));
-                command.Parameters.Add(DbProvider.CreateParameter("@LaudoMedico", (object)entity.LaudoMedico?.Conteudo ?? DBNull.Value, DbType.Binary, _databaseType));
+
+                
+                var paramLaudo = DbProvider.CreateParameter("@LaudoMedico", null, DbType.Binary, _databaseType);
+
+                if (entity.LaudoMedico?.Conteudo != null)
+                {
+                    // salva o PDF
+                    paramLaudo.Value = entity.LaudoMedico.Conteudo;
+                }
+                else
+                {
+                    
+                    paramLaudo.Value = DBNull.Value;
+                    paramLaudo.DbType = DbType.Object; 
+                }
+
+                command.Parameters.Add(paramLaudo);
 
                 await command.ExecuteNonQueryAsync();
-
                 return entity;
             }
             catch (DbException ex)

@@ -1,15 +1,41 @@
 using AcademiaDoZe.Application.Enums;
 using AcademiaDoZe.Presentation.AppMaui.Message;
+using AcademiaDoZe.Presentation.AppMaui.Resources.Strings;
 using CommunityToolkit.Mvvm.Messaging;
 namespace AcademiaDoZe.Presentation.AppMaui.Views;
 public partial class ConfigPage : ContentPage
 {
+    // ordem de foco dos controles usada por OnEntryCompleted
+    private VisualElement[] _focusOrder = [];
     public ConfigPage()
     {
         InitializeComponent();
         CarregarTema();
         CarregarBanco();
+        CarregarCultura();
+
+        // Assina o evento SelectedIndexChanged do TemaPicker, utilizando o tratador OnSalvarTemaClicked já existente
+        TemaPicker.SelectedIndexChanged += OnSalvarTemaClicked;
+        // Assina o evento SelectedIndexChanged do CulturaPicker, utilizando o tratador OnSalvarCulturaClicked já existente
+        CulturaPicker.SelectedIndexChanged += OnSalvarCulturaClicked;
+        // inicializa a ordem de foco dos controles
+        _focusOrder = [DatabaseTypePicker, ServidorEntry, BancoEntry, UsuarioEntry, SenhaEntry, ComplementoEntry];
     }
+    #region Cultura
+    private void CarregarCultura()
+    {
+        // uso de expressão switch para carregar o índice selecionado
+        CulturaPicker.SelectedIndex = Preferences.Get("Cultura", "") switch { "en-US" => 0, "es-ES" => 1, _ => 2, };
+        // se o valor não estiver definido, seleciona o index 2, que é o padrão pt-BR
+    }
+    private async void OnSalvarCulturaClicked(object? sender, EventArgs e)
+    {
+        string selected = CulturaPicker.SelectedIndex switch { 0 => "en-US", 1 => "es-ES", _ => "" };
+        // Disparar mensagem com o idioma selecionado - App.xaml.cs irá capturar esta mensagem e salvar
+        WeakReferenceMessenger.Default.Send(new CulturaPreferencesUpdatedMessage(selected));
+    }
+    #endregion
+    // códigos já existentes para tema e banco de dados omitidos
     private void CarregarTema()
     {
         // uso de expressão switch para carregar o índice selecionado

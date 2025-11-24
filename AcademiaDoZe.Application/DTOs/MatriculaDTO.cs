@@ -13,4 +13,7 @@ public class MatriculaDTO
     public required EAppMatriculaRestricoes RestricoesMedicas { get; set; }
     public string? ObservacoesRestricoes { get; set; }
     public ArquivoDTO? LaudoMedico { get; set; }
+
+    
+
 }

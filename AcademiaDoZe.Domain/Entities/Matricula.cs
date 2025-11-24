@@ -61,8 +61,8 @@ public class Matricula : Entity//Classe de Matrícula
         if (TextoNormalizadoService.TextoVazioOuNulo(objetivo)) throw new DomainException("OBJETIVO_OBRIGATORIO");
         objetivo = TextoNormalizadoService.LimparEspacos(objetivo);
         
-        if (restricoesMedicas != EMatriculaRestricoes.None && laudoMedico == null) throw new DomainException("RESTRICOES_LAUDO_OBRIGATORIO");
-        observacoesRestricoes = TextoNormalizadoService.LimparEspacos(observacoesRestricoes);
+        //if (restricoesMedicas != EMatriculaRestricoes.None && laudoMedico == null) throw new DomainException("RESTRICOES_LAUDO_OBRIGATORIO");
+       // observacoesRestricoes = TextoNormalizadoService.LimparEspacos(observacoesRestricoes);
         
 
         return new Matricula(id, alunoMatricula, planoMatricula, dataInicio, dataFinal, objetivo, restricoesMedicas,

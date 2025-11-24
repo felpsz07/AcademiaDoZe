@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="AcademiaDoZe.Presentation.AppMaui.Views.MatriculaListPage"
+    xmlns:vm="clr-namespace:AcademiaDoZe.Presentation.AppMaui.ViewModels"
+    xmlns:dto="clr-namespace:AcademiaDoZe.Application.DTOs;assembly=AcademiaDoZe.Application"
+    xmlns:converters="clr-namespace:AcademiaDoZe.Presentation.AppMaui.Converters"
+    x:DataType="vm:MatriculaListViewModel"
+    Title="{Binding Title}"
+    >
+
+    <ContentPage.Resources>
+        <converters:EnumDisplayConverter x:Key="EnumDisplay"/>
+        <converters:FotoToImageSourceConverter x:Key="FotoToImageSourceConverter"/>
+
+        <!-- TEMPLATE DA MATRÍCULA -->
+        <DataTemplate x:Key="MatriculaItemTemplate" x:DataType="dto:MatriculaDTO">
+            <Grid Padding="1" Margin="5">
+                <Border Style="{StaticResource CardBorder}" Margin="10">
+                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                          ColumnDefinitions="*,Auto,Auto">
+
+                        <!-- FOTO DO ALUNO -->
+                        <Image Grid.Row="0"
+                               Grid.Column="1"
+                               Grid.RowSpan="5"
+                               Source="{Binding AlunoMatricula.Foto, Converter={StaticResource FotoToImageSourceConverter}}"
+                               Aspect="AspectFill"
+                               Margin="0,0,10,0">
+
+                            <Image.HeightRequest>
+                                <OnIdiom x:TypeArguments="x:Double">
+                                    <OnIdiom.Phone>110</OnIdiom.Phone>
+                                    <OnIdiom.Tablet>130</OnIdiom.Tablet>
+                                    <OnIdiom.Desktop>130</OnIdiom.Desktop>
+                                </OnIdiom>
+                            </Image.HeightRequest>
+
+                            <Image.WidthRequest>
+                                <OnIdiom x:TypeArguments="x:Double">
+                                    <OnIdiom.Phone>110</OnIdiom.Phone>
+                                    <OnIdiom.Tablet>130</OnIdiom.Tablet>
+                                    <OnIdiom.Desktop>130</OnIdiom.Desktop>
+                                </OnIdiom>
+                            </Image.WidthRequest>
+                        </Image>
+
+                        <!-- NOME DO ALUNO -->
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="{Binding AlunoMatricula.Nome}"
+                               FontAttributes="Bold"
+                               Margin="0,0,0,5"/>
+
+                        <!-- PLANO -->
+                        <Label Grid.Row="1" Grid.Column="0"
+                               Text="{Binding Plano, Converter={StaticResource EnumDisplay}}"/>
+
+                        <!-- DATAS -->
+                        <Label Grid.Row="2" Grid.Column="0"
+                               Text="{Binding DataInicio, StringFormat='Início: {0:dd/MM/yyyy}'}"/>
+
+                        <Label Grid.Row="3" Grid.Column="0"
+                               Text="{Binding DataFim, StringFormat='Fim: {0:dd/MM/yyyy}'}"/>
+
+                        <!-- RESTRIÇÕES -->
+                        <Label Grid.Row="4" Grid.Column="0"
+                               Text="{Binding RestricoesMedicas, Converter={StaticResource EnumDisplay}}"/>
+
+                        <!-- EDITAR -->
+                        <Button Grid.Row="0" Grid.Column="2"
+                                Text=""
+                                Style="{StaticResource ButtonSmall}"
+                                Margin="4,0"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MatriculaListViewModel}}, Path=EditMatriculaCommand}"
+                                CommandParameter="{Binding}">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe3c9;"/>
+                            </Button.ImageSource>
+                        </Button>
+
+                        <!-- EXCLUIR -->
+                        <Button Grid.Row="1" Grid.Column="2"
+                                Text=""
+                                Style="{StaticResource ButtonDanger}"
+                                Margin="4,0"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MatriculaListViewModel}}, Path=DeleteMatriculaCommand}"
+                                CommandParameter="{Binding}">
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe872;"/>
+                            </Button.ImageSource>
+                        </Button>
+
+                    </Grid>
+                </Border>
+            </Grid>
+        </DataTemplate>
+
+    </ContentPage.Resources>
+
+    <!-- LAYOUT PRINCIPAL -->
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- BARRA DE BUSCA -->
+        <Border Grid.Row="0" Style="{StaticResource CardBorder}" Margin="15,10">
+            <Grid ColumnDefinitions="Auto,10,*,10,Auto" VerticalOptions="Center">
+
+                <Picker Grid.Column="0"
+                        Title=""
+                        ItemsSource="{Binding FilterTypes}"
+                        SelectedItem="{Binding SelectedFilterType}"
+                        WidthRequest="140"
+                        HeightRequest="40"/>
+
+                <Entry Grid.Column="2"
+                       Text="{Binding SearchText}"
+                       Placeholder="Pesquisar..."
+                       HeightRequest="40"/>
+
+                <Button Grid.Column="4"
+                        Text=""
+                        Style="{StaticResource ButtonPrimary}"
+                        Command="{Binding SearchMatriculasCommand}">
+                    <Button.ImageSource>
+                        <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe8b6;"/>
+                    </Button.ImageSource>
+                </Button>
+
+            </Grid>
+        </Border>
+
+        <!-- LISTA DE MATRÍCULAS -->
+        <Grid Grid.Row="1">
+
+            <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                         Command="{Binding RefreshCommand}">
+                <CollectionView ItemsSource="{Binding Matriculas}"
+                                SelectionMode="None"
+                                Margin="10">
+
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical">
+                            <GridItemsLayout.Span>
+                                <OnIdiom x:TypeArguments="x:Int32">
+                                    <OnIdiom.Phone>1</OnIdiom.Phone>
+                                    <OnIdiom.Tablet>2</OnIdiom.Tablet>
+                                    <OnIdiom.Desktop>3</OnIdiom.Desktop>
+                                </OnIdiom>
+                            </GridItemsLayout.Span>
+                        </GridItemsLayout>
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.EmptyView>
+                        <StackLayout VerticalOptions="Center">
+                            <Label Text="Nenhuma matrícula encontrada"
+                                   HorizontalOptions="Center"
+                                   Style="{StaticResource SubHeadline}"/>
+                            <Button Text="Criar Primeira Matrícula"
+                                    Command="{Binding AddMatriculaCommand}"
+                                    Style="{StaticResource ButtonPrimary}"
+                                    HeightRequest="50"
+                                    Margin="0,20,0,0"/>
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <StaticResource Key="MatriculaItemTemplate"/>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+            </RefreshView>
+
+            <!-- FAB -->
+            <Button Text=""
+                    Command="{Binding AddMatriculaCommand}"
+                    Style="{StaticResource ButtonPrimary}"
+                    WidthRequest="56"
+                    HeightRequest="56"
+                    HorizontalOptions="End"
+                    VerticalOptions="End"
+                    Margin="20">
+                <Button.ImageSource>
+                    <FontImageSource FontFamily="MaterialIcons" Glyph="&#xe145;"/>
+                </Button.ImageSource>
+            </Button>
+
+        </Grid>
+
+        <!-- LOADING -->
+        <ActivityIndicator Grid.Row="0"
+                           Grid.RowSpan="2"
+                           IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+
+    </Grid>
+
+</ContentPage>

@@ -40,6 +40,7 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		<UserSecretsId>092ff08d-9fa0-466a-b06e-8eeb3336f65f</UserSecretsId>
+		<NeutralLanguage>pt-BR</NeutralLanguage>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -73,6 +74,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Resources\Strings\AppResources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>AppResources.resx</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\LogradouroListPage.xaml.cs">
 	    <DependentUpon>LogradouroListPage.xaml</DependentUpon>
 	  </Compile>
@@ -82,6 +88,13 @@
 	  <Compile Update="Views\ColaboradorPage.xaml.cs">
 	    <DependentUpon>ColaboradorPage.xaml</DependentUpon>
 	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\Strings\AppResources.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -107,6 +120,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ColaboradorPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\MatriculaListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\MatriculaPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

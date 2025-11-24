@@ -20,7 +20,7 @@ public static class AlunoMappings
             Numero = aluno.Numero,
             Complemento = aluno.Complemento,
             Senha = null, // a senha não deve ser exposta no DTO
-           //Foto = aluno.Foto != null ? new ArquivoDTO { Conteudo = aluno.Foto.Conteudo } : null 
+            Foto = aluno.Foto != null ? new ArquivoDTO { Conteudo = aluno.Foto.Conteudo } : null 
         };
     }
     public static Aluno ToEntity(this AlunoDTO alunoDto)
